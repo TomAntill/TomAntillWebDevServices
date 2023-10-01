@@ -12,6 +12,9 @@ on:
 jobs:
   build:
     runs-on: windows-latest
+    
+    env:
+      SEND_GRID_API_KEY: ${{ secrets.SEND_GRID_API_KEY }}
 
     steps:
       - uses: actions/checkout@v2
