@@ -4,8 +4,9 @@ function handleFormSubmit(event) {
     event.preventDefault(); // Prevent the default form submission behavior
     const email = document.getElementById('emailInput').value;
     const password = document.getElementById('passwordInput').value;
+    const websiteName = WEBSITE_SETTINGS.WEBSITE_ID;
 
-    BackendServices.user.jwtLogin(email, password)
+    BackendServices.user.jwtLogin(email, password, websiteName)
         .then((response) => {
             BackendServices.helpers.changePath("Images");
         })

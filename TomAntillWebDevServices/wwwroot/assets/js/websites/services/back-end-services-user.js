@@ -46,9 +46,8 @@ export function jwtSignup(userName, password, websiteName) {
   });
 }
 
-export function jwtLogin(userName, password) {
+export function jwtLogin(userName, password, websiteName) {
   return new Promise((resolve, reject) => {
-    var websiteName = 0;
     var url = BackendServicesHelpers.setAPIUrl("JwtLogin");
     var finalUrl =
       url +
