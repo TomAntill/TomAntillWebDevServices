@@ -39,12 +39,12 @@ namespace TomAntillWebDevServices.Controllers
             if (systemPassword != password) throw new Exception("Invalid system login request");
         }
 
-        protected void CheckUserHasWebsiteAccess(User user, WebsiteName websiteName)
+        protected void CheckUserHasWebsiteAccess(User user, string websiteName)
         {
             if (!user.UserSites.Any(a => a.WebsiteName == websiteName)) throw new Exception("Access to website denied"); ;
         }
 
-        protected string GenerateJwtToken(User user, WebsiteName websiteName)
+        protected string GenerateJwtToken(User user, string websiteName)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_configuration["Authentication:SecretKey"]);

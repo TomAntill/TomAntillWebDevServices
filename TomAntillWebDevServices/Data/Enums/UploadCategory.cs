@@ -5,6 +5,6 @@
         BespokeCarpentry = 0,
         ConcreteTops = 1,
         Furniture = 2,
-        None = 3
-    }
+        None = 3,
+    }  
 }

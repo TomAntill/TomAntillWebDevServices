@@ -99,14 +99,25 @@ export function updateMedia(websiteName, id, updatedData) {
     };
   
     // Set the Authorization header
-    xhr.setRequestHeader("Authorization", "Bearer " + token);
+      xhr.setRequestHeader("Authorization", "Bearer " + token);
+
   
     const formData = new FormData();
     formData.append("name", name);
     formData.append("file", file);
     formData.append("websiteName", websiteName);
-    formData.append("uploadCategory", uploadCategory);
-    formData.append("projectName", projectName);
+      if (uploadCategory === undefined) {
+          formData.append("uploadCategory", "None");
+      }
+      else {
+          formData.append("uploadCategory", uploadCategory);
+      }
+      if (projectName === undefined) {
+          formData.append("projectName", "None");
+      }
+      else {
+          formData.append("projectName", projectName);
+      }
   
     xhr.send(formData);
   }

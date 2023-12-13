@@ -11,7 +11,7 @@ namespace TomAntillWebDevServices.Data.Auth.DataModels
         {
         }
 
-        public User(string email, string passwordHash, WebsiteName websiteName)
+        public User(string email, string passwordHash, string websiteName)
         {
             Id = Guid.NewGuid();
             Email = email;
@@ -43,14 +43,14 @@ namespace TomAntillWebDevServices.Data.Auth.DataModels
         {
         }
 
-        public UserSite(WebsiteName websiteName, Guid userId)
+        public UserSite(string websiteName, Guid userId)
         {
             WebsiteName = websiteName;
             UserId = userId;
         }
 
         public Guid Id { get; set; }
-        public WebsiteName WebsiteName { get; set; }
+        public string WebsiteName { get; set; }
 
         public Guid UserId { get; set; }
 
@@ -58,8 +58,7 @@ namespace TomAntillWebDevServices.Data.Auth.DataModels
         {
             var userSite = modelBuilder.Entity<UserSite>()
                 .ToTable("UserSite");
-            userSite.Property(e => e.WebsiteName).HasConversion(v => v.ToString(),
-                                                                               v => (WebsiteName)Enum.Parse(typeof(WebsiteName), v));
+            userSite.Property(e => e.WebsiteName);
         }
     }
 

@@ -77,7 +77,7 @@ namespace TomAntillWebDevServices.Data
             return mediaVm;
         }
 
-        public async Task<List<MediaVm>> GetAll(WebsiteName appName, UploadCategory? category = null, ProjectName? projectName = null)
+        public async Task<List<MediaVm>> GetAll(string appName, UploadCategory? category = null, ProjectName? projectName = null)
         {
             IQueryable<BasePicture> query = _context.BasePicture.Where(vm => vm.WebsiteName == appName);
 

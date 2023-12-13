@@ -1,7 +1,9 @@
 import BackendServices from '../back-end-services.js';
 
 var sendEmail = document.getElementById("sendEmail");
-sendEmail.addEventListener("click", BackendServices.email.sendMessage);
+if (sendEmail != null) {
+    sendEmail.addEventListener("click", BackendServices.email.sendMessage);
+};
 
   var popup = {
     init: function () {

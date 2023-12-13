@@ -29,7 +29,7 @@ namespace TomAntillWebDevServices.Controllers
         //Send Email
         [HttpPost]
         [Route("Add")]
-        public async Task<string> Add(Email email, WebsiteName websiteName)
+        public async Task<string> Add(Email email, string websiteName)
         {
             return await _emailService.Add(email, websiteName);
         }
@@ -37,14 +37,14 @@ namespace TomAntillWebDevServices.Controllers
         // get all pictures / get by category or project name
         [HttpGet]
         [Route("GetAll")]
-        public async Task<List<MediaVm>> GetAll(WebsiteName appName, UploadCategory? category = null, ProjectName? projectName = null)
+        public async Task<List<MediaVm>> GetAll(string appName, UploadCategory? category = null, ProjectName? projectName = null)
         {
             return await _mediaService.GetAll(appName, category, projectName);
         }
 
         [HttpGet]
         [Route("GetAllProjects")]
-        public async Task<List<MediaVm>> GetAllProjects(WebsiteName appName)
+        public async Task<List<MediaVm>> GetAllProjects(string appName)
         {
             var tsks = new List<Task<List<MediaVm>>>();
             ProjectName[] projects = (ProjectName[])Enum.GetValues(typeof(ProjectName));            

@@ -6,7 +6,7 @@ namespace TomAntillWebDevServices.Models.Commands
 {
     public class BaseMediaCommand
     {
-        public BaseMediaCommand(string name, WebsiteName websiteName, UploadCategory uploadCategory, ProjectName projectName)
+        public BaseMediaCommand(string name, string websiteName, UploadCategory uploadCategory, ProjectName projectName)
         {
             Name = name;
             WebsiteName = websiteName;
@@ -15,7 +15,7 @@ namespace TomAntillWebDevServices.Models.Commands
         }
 
         public string Name { get; set; }
-        public WebsiteName WebsiteName { get; set; }
+        public string WebsiteName { get; set; }
         public UploadCategory UploadCategory { get; set; }
         public ProjectName ProjectName { get; set; }
     }
@@ -23,7 +23,7 @@ namespace TomAntillWebDevServices.Models.Commands
     public class MediaUpdateCommand : BaseMediaCommand
     {
         [JsonConstructor]
-        public MediaUpdateCommand(int id, string name, WebsiteName websiteName, UploadCategory uploadCategory, ProjectName projectName)
+        public MediaUpdateCommand(int id, string name, string websiteName, UploadCategory uploadCategory, ProjectName projectName)
             : base(name, websiteName, uploadCategory, projectName)
         {
             Id = id;
@@ -34,7 +34,7 @@ namespace TomAntillWebDevServices.Models.Commands
 
     public class MediaAddCommand : BaseMediaCommand
     {
-        public MediaAddCommand(string name, IFormFile file, WebsiteName websiteName, UploadCategory uploadCategory, ProjectName projectName)
+        public MediaAddCommand(string name, IFormFile file, string websiteName, UploadCategory uploadCategory, ProjectName projectName)
             : base(name, websiteName, uploadCategory, projectName)
         {
             Name = name;

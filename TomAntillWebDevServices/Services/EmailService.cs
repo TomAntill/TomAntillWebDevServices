@@ -17,30 +17,15 @@ namespace TomAntillWebDevServices.Services
     public class EmailService : IEmailService
     {
         private readonly AppDbContext _context;
-        private readonly IConfiguration configuration;
-
-        private string SelectEmailFrom(WebsiteName websiteName)
-        {
-            string websiteEmail = null;
-            if (websiteName == WebsiteName.CoatesCarpentry)
-            {
-                websiteEmail = "info@coatescarpentry.co.uk";
-            }
-            else if (websiteName == WebsiteName.Portfolio)
-            {
-                //will need updating
-                websiteEmail = "enquiries@coatescarpentry.co.uk";
-            }
-            return websiteEmail;
-        }
-
+        private readonly IConfiguration configuration;      
 
         public EmailService(AppDbContext context, IConfiguration configuration)
         {
             _context = context;
             this.configuration = configuration;
         }
-        public async Task<string> Add(Email email, WebsiteName websiteName)
+
+        public async Task<string> Add(Email email, string websiteName)
         {
             EmailValidator validator = new EmailValidator();
             validator.ValidateAndThrow(email);
@@ -63,10 +48,26 @@ namespace TomAntillWebDevServices.Services
             return $"{res?.StatusCode} - {res?.IsSuccessStatusCode}";
         }
 
-        private EmailFromModel GetEmailDetails(WebsiteName websiteName)
+        private string SelectEmailFrom(string websiteCode)
+        {
+            switch (websiteCode)
+            {
+                case nameof(Website.CoatesCarpentry):
+                    return "info@coatescarpentry.co.uk";
+                case nameof(Website.TidyElectrics):
+                    //will need updating
+                    return "info@coatescarpentry.co.uk";
+                case nameof(Website.Portfolio):
+                    //will need updating
+                    return "enquiries@coatescarpentry.co.uk";
+                default:
+                    throw new Exception($"Invalid website {websiteCode} provided to {nameof(EmailService)}.{nameof(SelectEmailFrom)}");
+            }
+        }
+
+        private EmailFromModel GetEmailDetails(string websiteName)
         {
             var email = _context.EmailSettings.FirstOrDefault(x => x.WebsiteName == websiteName);
-
             EmailFromModel details = new EmailFromModel(email.EmailAddress, email.Template, email.Id);
             return details;
         }

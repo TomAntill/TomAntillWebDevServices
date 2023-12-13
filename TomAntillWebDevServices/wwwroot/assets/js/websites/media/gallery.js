@@ -47,20 +47,22 @@ function createContainer(settings) {
     // get the anchor id and init base container
     $(`#${settings.anchorId}`).append(
         `<div class='container aos-init aos-animate' data-aos='fade-up'>
-        <div class="${classes.$isotope}-${settings.anchorId}" data-portfolio-filter="" data-portfolio-layout="" data-portfolio-sort="original-order">
-            <h2 class="text-center headingSpacing" style="color:#d1b181 !important">${settings.title}</h2>
-            <div id="gallery-main-${settings.anchorId}" class="loadWrapper">
-                <div class="nav-tabs-navigation">
-                    <div class="${classes.$navTabs}-${settings.anchorId} hide">
-                        <ul id="tabs-${settings.anchorId}" role="tablist" class="${classes.$portFilters} nav nav-tabs aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
-                        </ul>
-                    <div>
+            <div class="${classes.$isotope}-${settings.anchorId}" data-portfolio-filter="" data-portfolio-layout="" data-portfolio-sort="original-order">
+                ${settings.hideTitle !== true ?
+                `<h2 class="text-center headingSpacing" style="color:#d1b181 !important">${settings.title}</h2>` : ""}
+                 <div id="gallery-main-${settings.anchorId}" class="loadWrapper">
+                    ${settings.hideNavigation !== true ?
+                    `<div class="nav-tabs-navigation">
+                        <div class="${classes.$navTabs}-${settings.anchorId} hide">
+                            <ul id="tabs-${settings.anchorId}" role="tablist" class="${classes.$portFilters} nav nav-tabs aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
+                            </ul>
+                        <div>
+                    </div>` : ""}
                 </div>
             </div>
-        </div>
-        <div class="row gy-4 ${classes.$portContainer}-${settings.anchorId} hide" data-aos="fade-up" data-aos-delay="200" id="imageContainer-${settings.anchorId}">
-        </div>
-    </div>`
+            <div class="row gy-4 ${classes.$portContainer}-${settings.anchorId} hide" data-aos="fade-up" data-aos-delay="200" id="imageContainer-${settings.anchorId}">
+            </div>
+        </div>`
     );
 }
 
@@ -122,7 +124,7 @@ function renderImages(images, settings) {
         images.forEach(image => {
 
             const portfolioItem = document.createElement('div');
-            portfolioItem.className = `col-lg-4 col-md-6 portfolio-item filter-${image.pictureCategory}`;
+            portfolioItem.className = `col-lg-4 col-md-6 portfolio-item gi-bp filter-${image.pictureCategory}`;
             portfolioItem.classList.add(`${classes.$portItem}`);
             const portfolioContent = document.createElement('div');
             portfolioContent.className = 'portfolio-content h-100';

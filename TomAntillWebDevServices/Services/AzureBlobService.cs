@@ -25,7 +25,7 @@ namespace TomAntillWebDevServices.Services
             this.appDbContext = appDbContext;
         }
 
-        public async Task DeleteMedia(WebsiteName appName, int id)
+        public async Task DeleteMedia(string appName, int id)
         {
             //GET FILE NAME
             string fullFileName = appDbContext.BasePicture.FirstOrDefault(x => x.Id == id).Path;
@@ -38,7 +38,7 @@ namespace TomAntillWebDevServices.Services
 
             return;
         }
-        public async Task<MediaVm> GetById(WebsiteName appName, int id)
+        public async Task<MediaVm> GetById(string appName, int id)
         {
             return await mediaBLL.GetByIdAsync(id);
         }
@@ -65,7 +65,7 @@ namespace TomAntillWebDevServices.Services
             return await mediaBLL.Add(command);
         }
 
-        public async Task<List<MediaVm>> GetAll(WebsiteName appName, UploadCategory? category = null, ProjectName? projectName = null)
+        public async Task<List<MediaVm>> GetAll(string appName, UploadCategory? category = null, ProjectName? projectName = null)
         {
             return await mediaBLL.GetAllAsync(appName, category, projectName);
         }

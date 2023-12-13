@@ -1,6 +1,7 @@
 import BackendServices from '../back-end-services.js';
 
 BackendServices.user.isLoggedIn();
+console.log("1", WEBSITE_SETTINGS.WEBSITE_ID);
 
 // Your JavaScript function 'addImage()' goes here.
 async function addImage(name, file, websiteName, uploadCategory, projectName) {
@@ -11,10 +12,10 @@ async function addImage(name, file, websiteName, uploadCategory, projectName) {
 
     const name = document.getElementById('name').value;
     const file = document.getElementById('file').files[0];
-    const uploadCategory = document.getElementById('uploadCategory').value;
-    const projectName = document.getElementById('projectName').value;
+    const uploadCategory = document.getElementById('uploadCategory')?.value;
+    const projectName = document.getElementById('projectName')?.value;
     try {
-        await BackendServices.post.addImage(name, file, WEBSITE_SETTINGS.WEBSITE_NAME, uploadCategory, projectName);
+        await BackendServices.post.addImage(name, file, WEBSITE_SETTINGS.WEBSITE_ID, uploadCategory, projectName);
     } catch (error) {
       console.error('Error:', error);
       localStorage.setItem("failureMessage", "Upload failed. Please check your credentials.");

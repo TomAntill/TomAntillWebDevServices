@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using TomAntillWebDevServices.BLL.Contracts;
 using TomAntillWebDevServices.Data.DataModels;
-using TomAntillWebDevServices.Data.Enums;
 using TomAntillWebDevServices.Services.Contracts;
 
 namespace TomAntillWebDevServices.BLL
@@ -15,7 +14,7 @@ namespace TomAntillWebDevServices.BLL
         {
             _emailService = (IEmailService)(emailService ?? throw new ArgumentNullException(nameof(emailService)));
         }
-        public async Task<string> Add(Email email, WebsiteName websiteName)
+        public async Task<string> Add(Email email, string websiteName)
         {
             return await _emailService.Add(email, websiteName);
         }

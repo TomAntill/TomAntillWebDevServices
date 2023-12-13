@@ -11,6 +11,6 @@ namespace TomAntillWebDevServices.Data.Contracts
         public Task<bool> Update(TUpdate t);
         public Task<bool> Delete(int id);
         public Task<T> GetById(int id);
-        public Task<List<T>> GetAll(WebsiteName appName, UploadCategory? category = null, ProjectName? projectName = null);
+        public Task<List<T>> GetAll(string appName, UploadCategory? category = null, ProjectName? projectName = null);
     }
 }

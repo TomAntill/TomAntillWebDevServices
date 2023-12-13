@@ -99,3 +99,94 @@ export function getCurrentHost() {
 
     return result;
 }
+
+export function addRedirectClickListener(selector, redirectUrl) {
+    const elements = document.querySelectorAll(selector);
+
+    if (elements.length > 0) {
+        elements.forEach((element) => {
+            element.addEventListener("click", function () {
+                const targetSectionId = element.getAttribute("data-target-section");
+
+                redirectTo(targetSectionId || redirectUrl);
+            });
+        });
+    }
+}
+
+export function redirectTo(location) {
+    const baseUrl = window.location.origin; // Get the base URL dynamically
+    const newPath = '/' + location; // The path you want to navigate to
+
+    // Construct the full URL
+    const newUrl = baseUrl + newPath;
+
+    // Redirect to the new URL
+    window.location.replace(newUrl);
+}
+
+addRedirectClickListener(".redirectAboutButtons", "About");
+addRedirectClickListener(".redirectProceduresButtons", "Procedures");
+addRedirectClickListener(".redirectGalleryButtons", "Gallery");
+addRedirectClickListener(".redirectContactButtons", "Contact");
+addRedirectClickListener(".redirectServicesButtons", "Services");
+addRedirectClickListener(".redirectWCMSButtons", "webcontentmanagementsystem");
+addRedirectClickListener(".redirectIndexButtons", "Index");
+
+
+function scroll() {
+    var div = document.getElementById("scroll");
+
+    if (div === null) {
+        return;
+    }
+    else {
+        var hideTimeout;
+
+        // Function to show the element
+        function hideElement() {
+            div.classList.remove("show");
+        }
+
+        // Function to hide the element
+        function showElement() {
+            div.classList.add("show");
+        }
+
+        // Function to set the hide class automatically after 2 seconds
+        function setShowAutomatically() {
+            hideTimeout = setTimeout(showElement, 4000); // Adjust the timeout as needed (2000 milliseconds = 2 seconds)
+        }
+
+        function handleScroll() {
+            if (window.scrollY > 100) {
+                div.classList.remove("show");
+            } else {
+                div.classList.add("show");
+            }
+        }
+
+        // Add scroll event listener
+        window.addEventListener("scroll", handleScroll);
+
+        // Add mousemove event listener to hide the element on mouse movement
+        document.addEventListener("mousemove", function () {
+            hideElement(); // Hide the element on mouse movement
+            clearTimeout(hideTimeout);
+            setShowAutomatically(); // Reset the automatic hide timeout
+        });
+        setShowAutomatically();
+    }
+}
+
+if (WEBSITE_SETTINGS.WEBSITE_NAME = "Portfolio") {
+    scroll();
+};
+
+
+
+
+
+
+
+

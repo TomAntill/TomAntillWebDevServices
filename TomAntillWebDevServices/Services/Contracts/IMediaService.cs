@@ -8,10 +8,10 @@ namespace TomAntillWebDevServices.Services.Contracts
 {
     public interface IMediaService
     {
-        public Task DeleteMedia(WebsiteName appName, int id);
+        public Task DeleteMedia(string appName, int id);
         public Task UpdateMediaData(MediaUpdateCommand command);
-        public Task<List<MediaVm>> GetAll(WebsiteName appName, UploadCategory? category = null, ProjectName? projectName = null);
-        public Task<MediaVm> GetById(WebsiteName appName, int id);
+        public Task<List<MediaVm>> GetAll(string appName, UploadCategory? category = null, ProjectName? projectName = null);
+        public Task<MediaVm> GetById(string appName, int id);
         public Task<MediaVm> UploadMedia(MediaAddCommand command);
     }
 }

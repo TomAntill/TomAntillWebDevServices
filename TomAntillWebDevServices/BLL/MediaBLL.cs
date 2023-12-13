@@ -21,7 +21,7 @@ namespace TomAntillWebDevServices.BLL
         {
             return await _pictureDAL.Add(command);
         }
-        public async Task<List<MediaVm>> GetAllAsync(WebsiteName appName, UploadCategory? category = null, ProjectName? projectName = null)
+        public async Task<List<MediaVm>> GetAllAsync(string appName, UploadCategory? category = null, ProjectName? projectName = null)
         {
             return await _pictureDAL.GetAll(appName, category, projectName);
 

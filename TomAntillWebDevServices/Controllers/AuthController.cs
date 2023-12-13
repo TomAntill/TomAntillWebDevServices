@@ -25,7 +25,7 @@ namespace TomAntillWebDevServices.Controllers
 
         [HttpGet]
         [Route("JwtLogin")]
-        public async Task<IActionResult> JwtLogin(string userName, string password, WebsiteName websiteName)
+        public async Task<IActionResult> JwtLogin(string userName, string password, string websiteName)
         {
             Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(userName, password, true, lockoutOnFailure: false);
             if (result.Succeeded)
@@ -50,7 +50,7 @@ namespace TomAntillWebDevServices.Controllers
         [HttpPost]
         [Route("AddSystemUser")]
         [JwtAuthAttribute]
-        public async Task<IActionResult> AddSystemUser(string userName, string password, WebsiteName websiteName)
+        public IActionResult AddSystemUser(string userName, string password, string websiteName)
         {          
             var signedInUser = _userInManager.FindByNameAsync(GetLoggedInUserName()).Result;
             

@@ -30,7 +30,7 @@ namespace TomAntillWebDevServices.Controllers
         [Route("AddImage")]
         [JwtAuthAttribute]
         public async Task<MediaVm> AddImage([FromForm] string name, [FromForm] IFormFile file
-            , [FromForm] WebsiteName websiteName, [FromForm] UploadCategory uploadCategory, [FromForm] ProjectName projectName)
+            , [FromForm] string websiteName, [FromForm] UploadCategory uploadCategory=UploadCategory.None, [FromForm] ProjectName projectName=ProjectName.None)
         {
             var command = new MediaAddCommand(name, file, websiteName, uploadCategory, projectName);
             MediaAddCommandValidator validator = new MediaAddCommandValidator();
@@ -41,7 +41,7 @@ namespace TomAntillWebDevServices.Controllers
         [HttpGet]
         [Route("GetAll")]
         [JwtAuthAttribute]
-        public async Task<List<MediaVm>> GetAll(WebsiteName appName, UploadCategory? category=null, ProjectName? projectName=null)
+        public async Task<List<MediaVm>> GetAll(string appName, UploadCategory? category=null, ProjectName? projectName=null)
         {
             return await mediaService.GetAll(appName, category, projectName);
         }
@@ -49,7 +49,7 @@ namespace TomAntillWebDevServices.Controllers
         [HttpGet]
         [Route("GetById")]
         [JwtAuthAttribute]
-        public async Task<MediaVm> GetById(WebsiteName appName, int id)
+        public async Task<MediaVm> GetById(string appName, int id)
         {
             GetByIdValidator validator = new GetByIdValidator();
             validator.ValidateAndThrow(id);
@@ -59,7 +59,7 @@ namespace TomAntillWebDevServices.Controllers
         [HttpDelete]
         [Route("Delete")]
         [JwtAuthAttribute]
-        public async Task<bool> Delete(WebsiteName websiteName, int id)
+        public async Task<bool> Delete(string websiteName, int id)
         {
             GetByIdValidator validator = new GetByIdValidator();
             validator.ValidateAndThrow(id);
