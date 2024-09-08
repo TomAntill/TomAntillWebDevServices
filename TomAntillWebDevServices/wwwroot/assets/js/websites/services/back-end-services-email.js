@@ -14,7 +14,7 @@ export function sendMessage() {
     };
   
     // Make a POST request to your API endpoint
-    fetch(BackendServicesHelpers.setAPIUrl("sendMessage"), {
+    fetch(`${BackendServicesHelpers.setAPIUrl("sendMessage")}/websiteName=${WEBSITE_SETTINGS.WEBSITE_NAME}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -132,6 +132,10 @@ addRedirectClickListener(".redirectContactButtons", "Contact");
 addRedirectClickListener(".redirectServicesButtons", "Services");
 addRedirectClickListener(".redirectWCMSButtons", "webcontentmanagementsystem");
 addRedirectClickListener(".redirectIndexButtons", "Index");
+addRedirectClickListener(".redirectRecipesButtons", "Recipes");
+addRedirectClickListener(".redirectSampleMenusButtons", "SampleMenus");
+
+
 
 
 function scroll() {
