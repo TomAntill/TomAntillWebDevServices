@@ -29,9 +29,9 @@ namespace TomAntillWebDevServices.Controllers
         //Send Email
         [HttpPost]
         [Route("Add")]
-        public async Task<string> Add(Email email, string websiteName)
+        public async Task<string> Add(Email email)
         {
-            return await _emailService.Add(email, websiteName);
+            return await _emailService.Add(email, email.WebsiteName);
         }
 
         // get all pictures / get by category or project name
