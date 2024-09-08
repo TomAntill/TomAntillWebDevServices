@@ -183,7 +183,7 @@ function scroll() {
     }
 }
 
-if (WEBSITE_SETTINGS.WEBSITE_NAME = "Portfolio") {
+if (WEBSITE_SETTINGS.WEBSITE_NAME === "Portfolio") {
     scroll();
 };
 
