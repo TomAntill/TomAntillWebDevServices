@@ -61,7 +61,7 @@ namespace TomAntillWebDevServices.Services
                     //will need updating
                     return "enquiries@coatescarpentry.co.uk";
                 default:
-                    throw new Exception($"Invalid website {websiteCode} provided to {nameof(EmailService)}.{nameof(SelectEmailFrom)}");
+                    return "info@coatescarpentry.co.uk";
             }
         }
 
