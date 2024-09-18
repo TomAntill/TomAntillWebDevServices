@@ -4,12 +4,12 @@ namespace TomAntillWebDevServices.Helpers
 {
     public class HelperModels
     {
-        public class EmailFromModel
+        public class SendToModel
         {
-            public EmailFromModel(string emailAddress, string templateId, int id)
+            public SendToModel(string emailAddress, string templateId, int id)
             {
                 TemplateId = templateId;
-                EmailAddress = new EmailAddress(emailAddress, "Tom");
+                EmailAddress = new EmailAddress(emailAddress, emailAddress);
                 EmailSettingsId = id;
             }
             public EmailAddress EmailAddress { get; set; }

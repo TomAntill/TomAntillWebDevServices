@@ -18,6 +18,11 @@
            , new string[0]
            , new string[0]);
 
+        public static readonly Website LeahSLT = new("Leah SLT"
+           , nameof(LeahSLT)
+           , new string[0]
+           , new string[0]);
+
         public static readonly Website Unset = new("Unset"
            , nameof(Unset)
            , new string[0]

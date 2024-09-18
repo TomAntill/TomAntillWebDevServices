@@ -17,7 +17,7 @@ namespace TomAntillWebDevServices.Services
     public class EmailService : IEmailService
     {
         private readonly AppDbContext _context;
-        private readonly IConfiguration configuration;      
+        private readonly IConfiguration configuration;
 
         public EmailService(AppDbContext context, IConfiguration configuration)
         {
@@ -27,28 +27,39 @@ namespace TomAntillWebDevServices.Services
 
         public async Task<string> Add(Email email, string websiteName)
         {
-            EmailValidator validator = new EmailValidator();
+            ValidateEmail(email);
+            var client = GetSendGridClient();
+
+            var from = new EmailAddress(SelectEmailFrom(websiteName), email.EmailAddress);
+            var sendTo = GetEmailDetails(websiteName);
+            var emailContent = new { from = email.EmailAddress, htmlcontent = email.Message, name = email.Name };
+
+            var msg = MailHelper.CreateSingleTemplateEmail(from, sendTo.EmailAddress, sendTo.TemplateId, emailContent);
+            var res = await client.SendEmailAsync(msg);
+
+            email.EmailSettingsId = sendTo.EmailSettingsId;
+            _context.Email.Add(email);
+            await _context.SaveChangesAsync();
+
+            return $"{res?.StatusCode} - {res?.IsSuccessStatusCode}";
+        }
+
+        private static void ValidateEmail(Email email)
+        {
+            EmailValidator validator = new();
             validator.ValidateAndThrow(email);
+        }
+
+        private static SendGridClient GetSendGridClient()
+        {
             // Retrieve the SendGrid API key from the environment variable
             var apiKey = Environment.GetEnvironmentVariable("SEND_GRID_API_KEY");
 
             // Create a SendGrid client using the API key
-            var client = new SendGridClient(apiKey);
-
-            var from = new EmailAddress(SelectEmailFrom(websiteName), email.EmailAddress);
-            var details = GetEmailDetails(websiteName);
-            var dynamicData = new { from = email.EmailAddress, htmlcontent = email.Message, name = email.Name };
-            var msg = MailHelper.CreateSingleTemplateEmail(from, details.EmailAddress, details.TemplateId, dynamicData);
-            var res = await client.SendEmailAsync(msg);
-            
-
-            email.EmailSettingsId = details.EmailSettingsId;
-            _context.Email.Add(email);
-            await _context.SaveChangesAsync();
-            return $"{res?.StatusCode} - {res?.IsSuccessStatusCode}";
+            return new SendGridClient(apiKey);
         }
 
-        private string SelectEmailFrom(string websiteCode)
+        private static string SelectEmailFrom(string websiteCode)
         {
             switch (websiteCode)
             {
@@ -60,15 +71,18 @@ namespace TomAntillWebDevServices.Services
                 case nameof(Website.Portfolio):
                     //will need updating
                     return "enquiries@coatescarpentry.co.uk";
+                case nameof(Website.LeahSLT):
+                    //will need updating
+                    return "info@coatescarpentry.co.uk";
                 default:
                     return "info@coatescarpentry.co.uk";
             }
         }
 
-        private EmailFromModel GetEmailDetails(string websiteName)
+        private SendToModel GetEmailDetails(string websiteName)
         {
             var email = _context.EmailSettings.FirstOrDefault(x => x.WebsiteName == websiteName);
-            EmailFromModel details = new EmailFromModel(email.EmailAddress, email.Template, email.Id);
+            SendToModel details = new(email.EmailAddress, email.Template, email.Id);
             return details;
         }
     }
