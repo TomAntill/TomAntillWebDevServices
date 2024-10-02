@@ -19,7 +19,7 @@ namespace TomAntillWebDevServices.Controllers
     [Route("api/admin")]
     public class JwtAuthController : Controller
     {
-        private readonly IConfiguration _configuration;
+        protected readonly IConfiguration _configuration;
 
         public JwtAuthController(IConfiguration configuration)
         {
