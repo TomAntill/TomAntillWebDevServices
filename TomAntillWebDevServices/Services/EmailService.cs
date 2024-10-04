@@ -38,8 +38,11 @@ namespace TomAntillWebDevServices.Services
             var res = await client.SendEmailAsync(msg);
 
             email.EmailSettingsId = sendTo.EmailSettingsId;
-            _context.Email.Add(email);
-            await _context.SaveChangesAsync();
+
+            if (websiteName != "LeahSLT") {
+                _context.Email.Add(email);
+                await _context.SaveChangesAsync();
+            }
 
             return $"{res?.StatusCode} - {res?.IsSuccessStatusCode}";
         }
@@ -72,8 +75,7 @@ namespace TomAntillWebDevServices.Services
                     //will need updating
                     return "enquiries@coatescarpentry.co.uk";
                 case nameof(Website.LeahSLT):
-                    //will need updating
-                    return "info@coatescarpentry.co.uk";
+                    return "info@leahslt.co.uk";
                 default:
                     return "info@coatescarpentry.co.uk";
             }
