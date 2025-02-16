@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,8 @@ using TomAntillWebDevServices.Services.Contracts;
 namespace TomAntillWebDevServices.Controllers
 {
     [ApiController]
+    [EnableCors("CoatesCarpentry")]
+
     [Route("api/services")]
     public class ServicesController : ControllerBase
     {

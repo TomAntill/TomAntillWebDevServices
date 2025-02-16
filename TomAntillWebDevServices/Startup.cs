@@ -76,7 +76,16 @@ namespace TomAntillWebDevServices
                 options.AddPolicy("Winescraper",
                     policy =>
                     {
-                        policy.WithOrigins("http://192.168.0.11:3000", "https://www.tidyelectrics.com",
+                        policy.WithOrigins("http://192.168.0.11:3000", "https://www.tidyelectrics.com", "http://192.168.0.11:3000/services",
+                            "https://www.leahslt.co.uk", "https://tomantillwebdev.uk", "https://www.coatescarpentry.co.uk")
+                                            .AllowAnyHeader()
+                                            .AllowAnyMethod()
+                                            .AllowCredentials();
+                    });
+                options.AddPolicy("CoatesCarpentry",
+                    policy =>
+                    {
+                        policy.WithOrigins("http://192.168.0.11:3000", "https://www.tidyelectrics.com", "http://192.168.0.11:3000/services",
                             "https://www.leahslt.co.uk", "https://tomantillwebdev.uk", "https://www.coatescarpentry.co.uk")
                                             .AllowAnyHeader()
                                             .AllowAnyMethod()
