@@ -47,7 +47,8 @@ namespace TomAntillWebDevServices.Controllers
         protected string GenerateJwtToken(User user, string websiteName)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_configuration["Authentication:SecretKey"]);
+            var key = _configuration["Authentication:SecretKey"];
+            var keyBytes = Encoding.ASCII.GetBytes(key);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
@@ -58,7 +59,7 @@ namespace TomAntillWebDevServices.Controllers
                 new Claim(ClaimTypes.Webpage, websiteName.ToString())
             }),
                 Expires = DateTime.UtcNow.AddDays(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(keyBytes), SecurityAlgorithms.HmacSha256Signature)
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);

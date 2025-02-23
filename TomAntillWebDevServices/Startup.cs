@@ -8,7 +8,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using TomAntillWebDevServices.Behaviour;
 using TomAntillWebDevServices.BLL;
 using TomAntillWebDevServices.BLL.Contracts;
 using TomAntillWebDevServices.Data;
