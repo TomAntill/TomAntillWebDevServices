@@ -76,7 +76,8 @@ namespace TomAntillWebDevServices
                         "https://www.leahslt.co.uk",
                         "https://tomantillwebdev.uk",
                         "https://www.coatescarpentry.co.uk",
-                        "http://127.0.0.1:8080"
+                        "http://127.0.0.1:8080",
+                        "https://orange-sea-04cc33003.4.azurestaticapps.net"
                     )
                     .AllowAnyHeader()
                     .AllowAnyMethod()
