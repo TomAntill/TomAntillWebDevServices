@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +10,13 @@ using TomAntillWebDevServices.Data.DataModels;
 using TomAntillWebDevServices.Data.Enums;
 using TomAntillWebDevServices.Models.ViewModels;
 using TomAntillWebDevServices.Services.Contracts;
+using TomAntillWebDevServices.Validation;
 
 namespace TomAntillWebDevServices.Controllers
 {
     [ApiController]
+    [EnableCors("AllowSpecificOrigins")]
+
     [Route("api/services")]
     public class ServicesController : ControllerBase
     {
@@ -23,6 +28,15 @@ namespace TomAntillWebDevServices.Controllers
         {
             _emailService = emailBLL;
             _mediaService = mediaService;
+        }
+
+        [HttpGet]
+        [Route("GetById")]
+        public async Task<MediaVm> GetById(string appName, int id)
+        {
+            GetByIdValidator validator = new GetByIdValidator();
+            validator.ValidateAndThrow(id);
+            return await _mediaService.GetById(appName, id);
         }
 
 

@@ -28,6 +28,11 @@
            , new string[0]
            , new string[0]);
 
+        public static readonly Website Winescraper = new("Winescraper"
+    , nameof(Winescraper)
+    , new string[0] 
+    , new string[0]);
+
         public Website(string name
             , string code
             , string[] uploadCategories

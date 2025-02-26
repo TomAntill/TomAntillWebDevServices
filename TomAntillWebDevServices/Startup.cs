@@ -8,7 +8,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using TomAntillWebDevServices.Behaviour;
 using TomAntillWebDevServices.BLL;
 using TomAntillWebDevServices.BLL.Contracts;
 using TomAntillWebDevServices.Data;
@@ -64,6 +63,36 @@ namespace TomAntillWebDevServices
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "TomAntillWebDevServices", Version = "v1" });
             });
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigins",
+            policy =>
+            {
+                policy.WithOrigins(
+                        "http://localhost:3000", 
+                        "http://192.168.0.11:3000",
+                        "https://www.tidyelectrics.com",
+                        "http://192.168.0.11:3000/services",
+                        "https://www.leahslt.co.uk",
+                        "https://tomantillwebdev.uk",
+                        "https://www.coatescarpentry.co.uk",
+                        "http://127.0.0.1:8080"
+                    )
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+            });
+
+                options.AddPolicy("AllowAnyOrigin",
+                    policy =>
+                    {
+                        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                    });
+
+                
+                
+            });
+
             // Add authentication services
             services.AddAuthentication(options =>
             {
@@ -76,15 +105,8 @@ namespace TomAntillWebDevServices
                     options.AccessDeniedPath = "/Auth/AccessDenied"; // Customize the access denied URL
                 });
 
-            services.AddCors(cors =>
-            {
-                cors.AddPolicy("AllowAnyOrigin",
-                    builder => builder.AllowAnyOrigin()
-                                    .AllowAnyMethod()
-                                    .AllowAnyHeader());
-            });
+            
         }
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -95,16 +117,16 @@ namespace TomAntillWebDevServices
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TomAntillWebDevServices v1"));
             }
 
-            app.UseCors("AllowAnyOrigin");
+            //app.UseCors("AllowAnyOrigin");
+            app.UseHttpsRedirection();
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
+            app.UseRouting();
+            app.UseCors();
             app.UseAuthentication();
 
-            app.UseHttpsRedirection();
-
-            app.UseRouting();
 
             //app.UseExceptionHandlingMiddleware();
 
