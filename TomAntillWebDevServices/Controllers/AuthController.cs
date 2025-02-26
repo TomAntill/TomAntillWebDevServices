@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Cors;
 namespace TomAntillWebDevServices.Controllers
 {
     [ApiController]
-    [EnableCors("Winescraper")]
+    [EnableCors("AllowSpecificOrigins")]
     [Route("api/auth")]
     public class AuthController : JwtAuthController
     {

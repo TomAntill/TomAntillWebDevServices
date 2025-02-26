@@ -65,31 +65,32 @@ namespace TomAntillWebDevServices
 
             services.AddCors(options =>
             {
+                options.AddPolicy("AllowSpecificOrigins",
+            policy =>
+            {
+                policy.WithOrigins(
+                        "http://localhost:3000", 
+                        "http://192.168.0.11:3000",
+                        "https://www.tidyelectrics.com",
+                        "http://192.168.0.11:3000/services",
+                        "https://www.leahslt.co.uk",
+                        "https://tomantillwebdev.uk",
+                        "https://www.coatescarpentry.co.uk",
+                        "http://127.0.0.1:8080"
+                    )
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+            });
+
                 options.AddPolicy("AllowAnyOrigin",
                     policy =>
                     {
                         policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
                     });
 
-                //update cors policy below
-                options.AddPolicy("Winescraper",
-                    policy =>
-                    {
-                        policy.WithOrigins("http://192.168.0.11:3000", "https://www.tidyelectrics.com", "http://192.168.0.11:3000/services",
-                            "https://www.leahslt.co.uk", "https://tomantillwebdev.uk", "https://www.coatescarpentry.co.uk")
-                                            .AllowAnyHeader()
-                                            .AllowAnyMethod()
-                                            .AllowCredentials();
-                    });
-                options.AddPolicy("CoatesCarpentry",
-                    policy =>
-                    {
-                        policy.WithOrigins("http://192.168.0.11:3000", "https://www.tidyelectrics.com", "http://192.168.0.11:3000/services",
-                            "https://www.leahslt.co.uk", "https://tomantillwebdev.uk", "https://www.coatescarpentry.co.uk")
-                                            .AllowAnyHeader()
-                                            .AllowAnyMethod()
-                                            .AllowCredentials();
-                    });
+                
+                
             });
 
             // Add authentication services

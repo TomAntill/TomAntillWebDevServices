@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -15,7 +16,9 @@ using TomAntillWebDevServices.Validation.Commands;
 namespace TomAntillWebDevServices.Controllers
 {
     [ApiController]
+    [EnableCors("AllowSpecificOrigins")]
     [Route("api/admin")]
+    
     public class AdminController : JwtAuthController
     {
         private readonly IMediaService mediaService;
@@ -48,7 +51,6 @@ namespace TomAntillWebDevServices.Controllers
 
         [HttpGet]
         [Route("GetById")]
-        [JwtAuthAttribute]
         public async Task<MediaVm> GetById(string appName, int id)
         {
             GetByIdValidator validator = new GetByIdValidator();
@@ -67,7 +69,7 @@ namespace TomAntillWebDevServices.Controllers
             return true;
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("Update")]
         [JwtAuthAttribute]
         public async Task<bool> Update([FromBody] MediaUpdateCommand command)
