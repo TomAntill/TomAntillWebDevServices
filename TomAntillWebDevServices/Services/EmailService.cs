@@ -44,6 +44,36 @@ namespace TomAntillWebDevServices.Services
                 await _context.SaveChangesAsync();
             }
 
+            var result = $"{res?.StatusCode} - {res?.IsSuccessStatusCode}";
+
+            return $"{res?.StatusCode} - {res?.IsSuccessStatusCode}";
+        }
+
+        public async Task<string> SendLogEmail(Email email, byte[] attachmentBytes, string fileName)
+        {
+            ValidateEmail(email);
+            var client = GetSendGridClient();
+
+            var from = new EmailAddress(SelectEmailFrom(email.WebsiteName), email.EmailAddress);
+            var sendTo = GetEmailDetails(email.WebsiteName);
+            var emailContent = new { from = email.EmailAddress, htmlcontent = email.Message, name = email.Name };
+
+            var msg = MailHelper.CreateSingleTemplateEmail(from, sendTo.EmailAddress, sendTo.TemplateId, emailContent);
+
+            // Add attachment
+            var fileBase64 = Convert.ToBase64String(attachmentBytes);
+            msg.AddAttachment(fileName, fileBase64, "text/plain", "attachment");
+
+            var res = await client.SendEmailAsync(msg);
+
+            email.EmailSettingsId = sendTo.EmailSettingsId;
+
+            if (email.WebsiteName != "LeahSLT")
+            {
+                _context.Email.Add(email);
+                await _context.SaveChangesAsync();
+            }
+
             return $"{res?.StatusCode} - {res?.IsSuccessStatusCode}";
         }
 
@@ -68,12 +98,14 @@ namespace TomAntillWebDevServices.Services
             {
                 case nameof(Website.CoatesCarpentry):
                     return "info@coatescarpentry.co.uk";
+                case nameof(Website.Winescraper):
+                    return "info@coatescarpentry.co.uk";
                 case nameof(Website.TidyElectrics):
                     //will need updating
                     return "info@coatescarpentry.co.uk";
                 case nameof(Website.Portfolio):
-                    //will need updating
-                    return "enquiries@coatescarpentry.co.uk";
+                    //will need updating 
+                    return "info@coatescarpentry.co.uk";
                 case nameof(Website.LeahSLT):
                     return "info@leahslt.co.uk";
                 default:

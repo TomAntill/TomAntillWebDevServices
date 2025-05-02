@@ -7,5 +7,7 @@ namespace TomAntillWebDevServices.BLL.Contracts
     {
         public Task<string> Add(Email email, string websiteName);
 
+        public Task<string> SendLogEmail(Email email, byte[] filebytes, string fileName);
+
     }
 }

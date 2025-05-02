@@ -1,9 +1,13 @@
-﻿using FluentValidation;
+﻿using Azure.Core;
+using FluentValidation;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using TomAntillWebDevServices.BLL.Contracts;
 using TomAntillWebDevServices.Data.DataModels;
@@ -46,6 +50,40 @@ namespace TomAntillWebDevServices.Controllers
         public async Task<string> Add(Email email)
         {
             return await _emailService.Add(email, email.WebsiteName);
+        }
+
+        [HttpPost]
+        [Route("SendLogEmail")]
+        public async Task<IActionResult> SendLogEmail()
+        {
+            var emailDataString = Request.Form["emailData"];
+
+            if (string.IsNullOrEmpty(emailDataString))
+                return BadRequest("Missing email data");
+
+            Email email;
+            try
+            {
+                email = JsonSerializer.Deserialize<Email>(emailDataString, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Invalid email data format: " + ex.Message);
+            }
+
+            var file = Request.Form.Files["attachment"];
+            if (file == null || file.Length == 0)
+                return BadRequest("Missing or empty attachment");
+
+            using var memoryStream = new MemoryStream();
+            await file.CopyToAsync(memoryStream);
+            var fileBytes = memoryStream.ToArray();
+
+            var result = await _emailService.SendLogEmail(email, fileBytes, file.FileName);
+            return Ok(result);
         }
 
         // get all pictures / get by category or project name

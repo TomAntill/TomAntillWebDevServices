@@ -18,5 +18,10 @@ namespace TomAntillWebDevServices.BLL
         {
             return await _emailService.Add(email, websiteName);
         }
+
+        public async Task<string> SendLogEmail(Email email, byte[] filebytes, string fileName)
+        {
+            return await _emailService.SendLogEmail(email, filebytes, fileName);
+        }
     }
 }
