@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
+using System.Threading.Tasks;
 using TomAntillWebDevServices.Data.DataModels;
 
 namespace TomAntillWebDevServices.BLL.Contracts
@@ -7,7 +9,7 @@ namespace TomAntillWebDevServices.BLL.Contracts
     {
         public Task<string> Add(Email email, string websiteName);
 
-        public Task<string> SendLogEmail(Email email, byte[] filebytes, string fileName);
+        public Task<string> SendLogEmail(StringValues email, IFormFile file);
 
     }
 }

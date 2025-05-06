@@ -1,8 +1,13 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
+using System;
+using System.IO;
+using System.Text.Json;
 using System.Threading.Tasks;
 using TomAntillWebDevServices.BLL.Contracts;
 using TomAntillWebDevServices.Data.DataModels;
 using TomAntillWebDevServices.Services.Contracts;
+
 
 namespace TomAntillWebDevServices.BLL
 {
@@ -19,9 +24,29 @@ namespace TomAntillWebDevServices.BLL
             return await _emailService.Add(email, websiteName);
         }
 
-        public async Task<string> SendLogEmail(Email email, byte[] filebytes, string fileName)
+        public async Task<string> SendLogEmail(StringValues emailDataString, IFormFile file)
         {
-            return await _emailService.SendLogEmail(email, filebytes, fileName);
+            Email email;
+            try
+            {
+                email = JsonSerializer.Deserialize<Email>(emailDataString, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Invalid email data format: " + ex.Message);
+            }
+            if (email == null)
+                throw new Exception("Invalid email data format");
+
+            using var memoryStream = new MemoryStream();
+            await file.CopyToAsync(memoryStream);
+            var fileBytes = memoryStream.ToArray();
+
+            return await _emailService.SendLogEmail(email, fileBytes, file.FileName);
         }
+
     }
 }
